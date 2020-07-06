@@ -21,7 +21,7 @@ RSpec.describe 'Posts', type: :request do
         get "/posts?search=Hola"
         payload = JSON.parse(response.body)
         expect(payload.size).to eq(2)
-        expect(payload.pluck(:id).sort).to eq([post1, post2].pluck(:id).sort)
+        expect(payload.pluck("id").sort).to eq([post1, post2].pluck(:id).sort)
         expect(response).to have_http_status(200)
       end
     end
