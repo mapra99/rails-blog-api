@@ -70,7 +70,7 @@ RSpec.describe 'Posts', type: :request do
       post "/posts", params: req_payload
       resp_payload = JSON.parse(response.body)
       expect(resp_payload).not_to be_empty
-      expect(resp_payload['id']).not_to be_empty
+      expect(resp_payload['id']).not_to be_nil
       expect(response).to have_http_status(:created)
     end
 
@@ -93,14 +93,12 @@ RSpec.describe 'Posts', type: :request do
 
   describe 'PUT /posts/{id}' do
     let!(:article) { create(:post) }
-    let!(:user) { create(:user) }
 
     it 'should edit a post' do
       new_post_attributes = {
         title: Faker::Lorem.sentence,
         content: Faker::Lorem.paragraph,
-        published: false,
-        user_id: user.id
+        published: false
       }
 
       req_payload = {
