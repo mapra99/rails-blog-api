@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PostsController < ApplicationController
+  include Secured
+
   before_action :authenticate_user!, only: [:create, :update]
 
   rescue_from Exception do |e|
@@ -55,18 +57,5 @@ class PostsController < ApplicationController
 
   def update_params
     params.require(:post).permit(:title, :content, :published)
-  end
-
-  def authenticate_user!
-    token_regex = /^Bearer (\w+)$/
-    headers = request.headers
-
-    if headers['Authorization']&.match?(token_regex)
-      token = headers['Authorization'].match(token_regex)[1]
-      Current.user = User.find_by_auth_token(token)
-      return if Current.user.present?
-    end
-
-    render json: { error: 'Unauthorized' }, status: :unauthorized
   end
 end
