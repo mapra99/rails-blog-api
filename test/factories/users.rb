@@ -2,6 +2,6 @@ FactoryBot.define do
   factory :user do
     email { Faker::Internet.email }
     name { Faker::Name.name }
-    auth_token { "xxxxxxx" }
+    auth_token { TokenGenerationService.generate }
   end
 end
