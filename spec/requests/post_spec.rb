@@ -12,16 +12,16 @@ RSpec.describe 'Posts', type: :request do
       expect(response).to have_http_status(200)
     end
 
-    describe "Search" do
-      let!(:post1) { create(:post, title: "Hola Mundo", published: true) }
-      let!(:post2) { create(:post, title: "Hola Rails", published: true) }
-      let!(:post3) { create(:post, title: "Curso Rails", published: true) }
+    describe 'Search' do
+      let!(:post1) { create(:post, title: 'Hola Mundo', published: true) }
+      let!(:post2) { create(:post, title: 'Hola Rails', published: true) }
+      let!(:post3) { create(:post, title: 'Curso Rails', published: true) }
 
-      it "should filter posts by title" do
-        get "/posts?search=Hola"
+      it 'should filter posts by title' do
+        get '/posts?search=Hola'
         payload = JSON.parse(response.body)
         expect(payload.size).to eq(2)
-        expect(payload.pluck("id").sort).to eq([post1, post2].pluck(:id).sort)
+        expect(payload.pluck('id').sort).to eq([post1, post2].pluck(:id).sort)
         expect(response).to have_http_status(200)
       end
     end
@@ -57,18 +57,18 @@ RSpec.describe 'Posts', type: :request do
       get "/posts/#{post.id}"
       payload = JSON.parse(response.body)
       expect(payload).not_to be_empty
-      expect(payload["id"]).to eq(post.id)
-      expect(payload["title"]).to eq(post.title)
-      expect(payload["content"]).to eq(post.content)
-      expect(payload["published"]).to eq(post.published)
-      expect(payload["author"]["name"]).to eq(post.user.name)
-      expect(payload["author"]["email"]).to eq(post.user.email)
-      expect(payload["author"]["id"]).to eq(post.user.id)
+      expect(payload['id']).to eq(post.id)
+      expect(payload['title']).to eq(post.title)
+      expect(payload['content']).to eq(post.content)
+      expect(payload['published']).to eq(post.published)
+      expect(payload['author']['name']).to eq(post.user.name)
+      expect(payload['author']['email']).to eq(post.user.email)
+      expect(payload['author']['id']).to eq(post.user.id)
       expect(response).to have_http_status(200)
     end
 
     it 'should return 404 if the post doesnt exist' do
-      get "/posts/0"
+      get '/posts/0'
       payload = JSON.parse(response.body)
       expect(response).to have_http_status(404)
     end

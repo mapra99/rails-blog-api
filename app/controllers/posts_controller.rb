@@ -3,7 +3,7 @@
 class PostsController < ApplicationController
   include Secured
 
-  before_action :authenticate_user!, only: [:create, :update]
+  before_action :authenticate_user!, only: %i[create update]
 
   rescue_from Exception do |e|
     render json: { error: e.message }, status: :internal_error
@@ -32,7 +32,7 @@ class PostsController < ApplicationController
     if @post.published || (Current.user && @post.user_id == Current.user.id)
       render json: @post, status: :ok
     else
-      render json: {error: "Not found"}, status: 404
+      render json: { error: 'Not found' }, status: 404
     end
   end
 

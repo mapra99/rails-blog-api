@@ -1,20 +1,22 @@
+# frozen_string_literal: true
+
 class PostReport < Struct.new(:word_count, :word_histogram)
   def self.generate(post)
     {
-      word_count: post.content.split.map{ |word| word.gsub(/\W/, '')}.count,
+      word_count: post.content.split.map { |word| word.gsub(/\W/, '') }.count,
       word_histogram: calc_histogram(post)
     }
   end
 
-  private 
+  private
 
-  def self.calc_histogram (post)
-    (post
+  def self.calc_histogram(post)
+    post
       .content
       .split
-      .map{ |word| word.gsub(/\W/, '')}
+      .map { |word| word.gsub(/\W/, '') }
       .map(&:downcase)
-      .group_by{|word| word}
-      .transform_values(&:size))
+      .group_by { |word| word }
+      .transform_values(&:size)
   end
 end

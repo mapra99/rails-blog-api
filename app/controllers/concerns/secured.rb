@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Secured
   def authenticate_user!
     token_regex = /^Bearer (\w+)$/
